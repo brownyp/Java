@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/yupei/tangerine/Final_Project_5100/Server/src/userinterface/main/MainLoginFrame.java</file>
-            <file>file:/Users/yupei/tangerine/Final_Project_5100/Server/src/cheatforum/CheatThread.java</file>
-            <file>file:/Users/yupei/tangerine/Final_Project_5100/Server/src/cheatforum/Server.java</file>
-            <file>file:/Users/yupei/tangerine/Final_Project_5100/Server/src/business/system/EcoSystem.java</file>
-            <file>file:/Users/yupei/tangerine/Final_Project_5100/Server/src/business/system/ConfigureABusiness.java</file>
+            <file>file:/Users/yupei/Documents/GitHub/Java/Final_Project/Server/src/business/person/Person.java</file>
+            <file>file:/Users/yupei/Documents/GitHub/Java/Final_Project/Server/src/business/system/ConfigureABusiness.java</file>
+            <file>file:/Users/yupei/Documents/GitHub/Java/Final_Project/Server/src/userinterface/main/MainLoginFrame.java</file>
+            <file>file:/Users/yupei/Documents/GitHub/Java/Final_Project/Server/src/business/person/PersonDirectory.java</file>
+            <file>file:/Users/yupei/Documents/GitHub/Java/Final_Project/Server/src/business/system/EcoSystem.java</file>
         </group>
     </open-files>
 </project-private>
