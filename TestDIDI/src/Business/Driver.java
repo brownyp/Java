@@ -7,7 +7,17 @@ public class Driver {
     private List<Double> driverLocation;
     private String driverStatus;
     private int onRoadT;
+    //接单时进行距离比较的工具属性
     private double aim;
+    private double bearing;
+
+    public double getBearing() {
+        return bearing;
+    }
+
+    public void setBearing(double bearing) {
+        this.bearing = bearing;
+    }
 
     public int getDriverID() {
         return driverID;

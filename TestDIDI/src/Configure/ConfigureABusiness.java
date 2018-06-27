@@ -31,6 +31,17 @@ public class ConfigureABusiness {
             lo.add(loX);
             lo.add(loY);
             d.setDriverLocation(lo);
+            //以 当前角度/180，为角度系数
+            double bearingDegree = Math.random();
+            //随机朝北或朝南
+            Random random = new Random();
+            int northOrSouth = random.nextInt(2);
+
+            if(northOrSouth==0){
+                d.setBearing(bearingDegree);
+            }else{
+                d.setBearing(bearingDegree*-1);
+            }
             driverlist.add(d);
         }
 
@@ -115,7 +126,6 @@ public class ConfigureABusiness {
 //                    System.out.println("车辆运动");
                 }
             }
-
         }
         System.out.println("==========车辆移动一次===========");
         return driverMapChange;
