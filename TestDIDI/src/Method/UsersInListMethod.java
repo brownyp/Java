@@ -48,6 +48,8 @@ public class UsersInListMethod {
             if(userQueueList.size()==1){
                 //原始方案，搜索最近的车
             }else{
+                
+                userQueueList.size();
 
             }
 

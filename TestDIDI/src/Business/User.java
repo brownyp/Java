@@ -9,6 +9,7 @@ public class User {
     private List<Double> userLocation;
     private List<Double> userAimLocation;
 
+
     private String status;
 
     public List<Double> getUserAimLocation() {

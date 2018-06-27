@@ -19,7 +19,7 @@ public class UserQueueMethod {
         int uTime = 1477929720;
         int oriTime = 1477929720;
 
-        //Methods
+        //引入Methods
         Methods methods = new Methods();
 
         //网格数量显示
@@ -30,9 +30,6 @@ public class UserQueueMethod {
 
         //订单数量计数器
         int successNum = 0;
-
-        //司机数量计数器
-        int driverNumber;
 
 
         while (!userQueue.isEmpty()) {
@@ -103,12 +100,6 @@ public class UserQueueMethod {
                         }
 
                         System.out.println("平均接单距离为：" + dis / orderslist.size());
-                        driverNumber = 0;
-                        for (Map.Entry<List<Double>, List<Driver>> entry : driverMap.entrySet()) {
-                            List<Driver> value = entry.getValue();
-                            driverNumber = driverNumber + value.size();
-                        }
-                        System.out.println("----所有司机的数量是：" + driverNumber);
                     } else {
 
                         int blockNum = 1;
@@ -199,12 +190,6 @@ public class UserQueueMethod {
                         }
 
                         System.out.println("平均接单距离为：" + dis / orderslist.size());
-                        driverNumber = 0;
-                        for (Map.Entry<List<Double>, List<Driver>> entry : driverMap.entrySet()) {
-                            List<Driver> value = entry.getValue();
-                            driverNumber = driverNumber + value.size();
-                        }
-                        System.out.println("----所有司机的数量是：" + driverNumber);
                     }
                 } else {
                     userQueue.peek().setStatus("no");

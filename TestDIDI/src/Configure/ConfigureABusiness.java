@@ -33,7 +33,7 @@ public class ConfigureABusiness {
             d.setDriverLocation(lo);
             //以 当前角度/180，为角度系数
             double bearingDegree = Math.random();
-            //随机朝北或朝南
+            //随机朝北或朝南;朝北为正
             Random random = new Random();
             int northOrSouth = random.nextInt(2);
 
