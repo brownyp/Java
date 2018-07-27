@@ -99,7 +99,6 @@ public class UsersInListMethod {
                         }
                         blockNum++;
                     }
-//                    System.out.println(userAimDriverListForBlocks.size());
 
                     //将每个user周围对应的driverList存到map中
                     userGetDriverMap.put(userQueueList.get(i), userAimDriverListForBlocks);

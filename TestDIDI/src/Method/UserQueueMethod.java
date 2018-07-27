@@ -128,12 +128,6 @@ public class UserQueueMethod {
                             blockNum++;
 
                         }
-                        //将订单成交车辆从driver地图中删除
-//                        double dx = (double) Math.round(userAimDriver.get(0).getDriverLocation().get(0) * 1000) / 1000;
-//                        double dy = (double) Math.round(userAimDriver.get(0).getDriverLocation().get(1) * 1000) / 1000;
-//                        List<Double> aimDriverLo = new ArrayList<>();
-//                        aimDriverLo.add(dx);
-//                        aimDriverLo.add(dy);
 
                         for (Map.Entry<List<Double>, List<Driver>> driverL : driverMap.entrySet()) {
                             List<Driver> driverDelL = driverL.getValue();
