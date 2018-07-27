@@ -12,7 +12,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        ConfigureABusiness c = new ConfigureABusiness(20001);//车辆信息初始化
+        ConfigureABusiness c = new ConfigureABusiness(20001);//车辆信息初始化 Car information init;
         HashMap<List<Double>, List<Driver>> driverMap = c.getDriverMap();//车辆地图
         ArrayList<Driver> driverOffList = new ArrayList<>();//离线车辆
         CsvReader csv = new CsvReader();//读取order信息并生成user
