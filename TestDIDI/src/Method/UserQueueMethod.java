@@ -57,6 +57,8 @@ public class UserQueueMethod {
                 List<Double> userFindLo = new ArrayList<>();
                 userFindLo.add(ux);
                 userFindLo.add(uy);
+
+                //Todo 判断坐标范围
                 if (driverMap.containsKey(userFindLo)) {
                     List<Driver> userAimDriverList = driverMap.get(userFindLo);
 
@@ -64,7 +66,7 @@ public class UserQueueMethod {
                     if (!userAimDriverList.isEmpty()) {
 
                         //找出方格中的车辆，并找出最近车辆
-                        userAimDriver = methods.getAimDriverList(userAimDriverList, userAimDriver, ux, uy);
+                        userAimDriver = methods.getAimDriverList(userAimDriverList, ux, uy);
 
                         Driver aimDriver = userAimDriver.get(0);
                         Order order = new Order();
@@ -76,10 +78,12 @@ public class UserQueueMethod {
                         order.setOrderStartT(uTime);
                         order.setOrderStartL(userQueue.peek().getUserLocation());
                         double averageDistance = Math.abs(ux - aimDriver.getDriverLocation().get(0)) + Math.abs(uy - aimDriver.getDriverLocation().get(1));
-                        order.setAvergeDistance(averageDistance);
+                        order.setManhattanDistance(averageDistance);
                         orderslist.add(order);
 
                         //将已接单车辆剔除现有地图中，并加入Offline的list
+
+                        //Todo 改变量
                         for (int dGetNum = 0; dGetNum < driverMap.get(userFindLo).size(); dGetNum++) {
                             if (driverMap.get(userFindLo).get(dGetNum).getDriverID() == aimDriver.getDriverID()) {
                                 driverMap.get(userFindLo).get(dGetNum).setOnRoadT(userQueue.peek().getEndT() - userQueue.peek().getStartT());
@@ -96,7 +100,7 @@ public class UserQueueMethod {
                         //平均接单距离计算
                         double dis = 0;
                         for (int k = 0; k < orderslist.size(); k++) {
-                            dis = dis + orderslist.get(k).getAvergeDistance();
+                            dis = dis + orderslist.get(k).getManhattanDistance();
                         }
 
                         System.out.println("平均接单距离为：" + dis / orderslist.size());
@@ -108,36 +112,16 @@ public class UserQueueMethod {
 
                         List<Driver> userAimDriverListForBlocks = new ArrayList<>();
 
+                        Set<List<Double>> alreadySearchBlocks = new HashSet<>();
+
                         //如果目标车辆list为空
                         while (userAimDriverListForBlocks.isEmpty()) {
                             List<List<Double>> blocks = new ArrayList<>();
                             //搜集方格并存入list
-                            for (int dxR = -blockNum; dxR < blockNum + 1; dxR++) {
-                                double dx = userFindLo.get(0) + 0.001 * dxR;
-                                for (int dyR = -blockNum; dyR < blockNum + 1; dyR++) {
-                                    List<Double> lo = new ArrayList<>();
-                                    double dy = userFindLo.get(1) + 0.001 * dyR;
-                                    lo.add(dx);
-                                    lo.add(dy);
-                                    blocks.add(lo);
-                                }
-                            }
-
-                            for (int k = 0; k < blocks.size(); k++) {
-                                if (driverMap.containsKey(blocks.get(k))) {
-                                    List<Driver> userAimDriverListForBlock = driverMap.get(blocks.get(k));
-                                    if (!userAimDriverListForBlock.isEmpty()) {
-                                        for (int dNum = 0; dNum < userAimDriverListForBlock.size(); dNum++) {
-                                            userAimDriverListForBlocks.add(userAimDriverListForBlock.get(dNum));
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-
+                            userAimDriverListForBlocks=methods.searchInBlocks(alreadySearchBlocks,blockNum,userFindLo,blocks,driverMap,userAimDriverListForBlocks);
 
                             //找出blocks中最近车辆
-                            userAimDriver = methods.getAimDriverList(userAimDriverListForBlocks, userAimDriver, ux, uy);
+                            userAimDriver = methods.getAimDriverList(userAimDriverListForBlocks, ux, uy);
                             System.out.println("====找到" + userAimDriver.size() + "辆车====");
                             System.out.println("扩大了" + blocks.size() + "格");
                             successNum = successNum + 1;
@@ -170,23 +154,13 @@ public class UserQueueMethod {
 
 
                         //创建订单
-                        Order order = new Order();
-                        order.setOrderID();
-                        //订单生成
-                        Driver aimDriver = userAimDriver.get(0);
-                        order.setDriverID(aimDriver.getDriverID());
-                        order.setUserID(userQueue.peek().getUserID());
-                        order.setOrderStartT(uTime);
-                        order.setOrderStartL(userQueue.peek().getUserLocation());
-                        double averageDistance = Math.abs(ux - aimDriver.getDriverLocation().get(0)) + Math.abs(uy - aimDriver.getDriverLocation().get(1));
-                        order.setAvergeDistance(averageDistance);
-                        orderslist.add(order);
+                        methods.createOrder(uTime,userAimDriver,userQueue,ux,uy);
 
                         successNum = successNum + 1;
                         //平均接单距离计算
                         double dis = 0;
                         for (int k = 0; k < orderslist.size(); k++) {
-                            dis = dis + orderslist.get(k).getAvergeDistance();
+                            dis = dis + orderslist.get(k).getManhattanDistance();
                         }
 
                         System.out.println("平均接单距离为：" + dis / orderslist.size());

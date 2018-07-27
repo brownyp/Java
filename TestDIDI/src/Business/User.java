@@ -8,7 +8,15 @@ public class User {
     private int endT;
     private List<Double> userLocation;
     private List<Double> userAimLocation;
+    private double userBearing;
 
+    public double getUserBearing() {
+        return userBearing;
+    }
+
+    public void setUserBearing(double userBearing) {
+        this.userBearing = userBearing;
+    }
 
     private String status;
 

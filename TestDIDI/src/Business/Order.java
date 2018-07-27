@@ -10,14 +10,14 @@ public class Order {
     private List<Double> orderEndL;
     private int driverID;
     private String userID;
-    private double avergeDistance;
+    private double manhattanDistance;
 
-    public double getAvergeDistance() {
-        return avergeDistance;
+    public double getManhattanDistance() {
+        return manhattanDistance;
     }
 
-    public void setAvergeDistance(double avergeDistance) {
-        this.avergeDistance = avergeDistance;
+    public void setManhattanDistance(double manhattanDistance) {
+        this.manhattanDistance = manhattanDistance;
     }
 
     public int getDriverID() {

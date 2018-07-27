@@ -2,6 +2,7 @@ package Configure;
 
 
 import Business.User;
+import Method.Methods;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,13 +19,14 @@ public class CsvReader {
     private Queue<User> userQueue;
 
 
-    public CsvReader(){
+    public CsvReader() {
         this.userList = new ArrayList<>();
         this.userQueue = new LinkedList<>();
         String csvFile = "order_20161101.csv";
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
+        Methods m = new Methods();
 
 
         try {
@@ -46,6 +48,30 @@ public class CsvReader {
                 lo1.add(Double.parseDouble(client[6]));
                 u.setUserLocation(lo);
                 u.setUserAimLocation(lo1);
+
+                double odx = lo.get(0);
+                double ody = lo.get(1);
+
+                double ndx = lo1.get(0);
+                double ndy = lo1.get(1);
+
+                double degree = 0;
+
+                if (ndx > odx && ndy > ody) {
+                    //东北
+                    degree = m.getNewDegree(odx, ody, ndx, ndy)+90;
+                } else if (ndx > odx && ndy < ody) {
+                    //东南
+                    degree = m.getNewDegree(odx, ody, ndx, ndy)+180;
+                } else if (ndx < odx && ndy > ody) {
+                    //西北
+                    degree = m.getNewDegree(odx, ody, ndx, ndy);
+                } else if (ndx < odx && ndy < ody) {
+                    //西南
+                    degree = m.getNewDegree(odx, ody, ndx, ndy)+270;
+                }
+
+                u.setUserBearing(degree);
                 userList.add(u);
                 userQueue.add(u);
             }
@@ -66,9 +92,12 @@ public class CsvReader {
         }
     }
 
+
+
     public ArrayList<User> getUserList() {
         return userList;
     }
+
     public Queue<User> getUserQueue() {
         return userQueue;
     }

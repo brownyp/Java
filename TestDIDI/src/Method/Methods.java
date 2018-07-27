@@ -1,12 +1,11 @@
 package Method;
 
 import Business.Driver;
+import Business.Order;
+import Business.User;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Methods {
     public Methods(){
@@ -34,6 +33,7 @@ public class Methods {
                     List<Double> putDriverLo = new ArrayList<>();
                     putDriverLo.add(dx);putDriverLo.add(dy);
 
+                    //Todo 时间Queue
                     if(driverMap.containsKey(putDriverLo)){
                         List driverList = driverMap.get(putDriverLo);
                         driverList.add(driverOffList.get(oN));
@@ -54,7 +54,7 @@ public class Methods {
         return ux;
     }
 
-    public void showBlockNumber(HashMap<List<Double>, List<Driver>> driverMap){
+    public int showBlockNumber(HashMap<List<Double>, List<Driver>> driverMap){
         int i = 0;
         int j = 0;
         for (Map.Entry<List<Double>, List<Driver>> driverLo : driverMap.entrySet()) {
@@ -66,9 +66,12 @@ public class Methods {
         }
         System.out.println("无车网格数量：" + i);
         System.out.println("有车网格数量：" + j);
+
+        return i+j;
     }
 
-    public static List<Driver> getAimDriverList(List<Driver> userAimDriverList, List<Driver> userAimDriver, double ux, double uy) {
+    public List<Driver> getAimDriverList(List<Driver> userAimDriverList,double ux, double uy) {
+        List<Driver> userAimDriver = new ArrayList<>();
         for (Driver d : userAimDriverList) {
             double dx = d.getDriverLocation().get(0);
             double dy = d.getDriverLocation().get(1);
@@ -89,5 +92,77 @@ public class Methods {
             }
         }
         return userAimDriver;
+    }
+
+    public double getNewDegree(double odx, double ody, double onx, double ony) {
+        double x = Math.abs(odx - onx);
+        double y = Math.abs(ody - ony);
+        double z = Math.sqrt(x * x + y * y);
+        double degree = Math.round((float) (Math.asin(y / z) / Math.PI * 180));//最终角度
+
+        return degree;
+    }
+
+    public List<Driver> searchInBlocks(Set<List<Double>> alreadySearchBlocks,int blockNum, List<Double> userFindLo,List<List<Double>> blocks,HashMap<List<Double>, List<Driver>> driverMap,List<Driver> userAimDriverListForBlocks){
+
+        //Todo 改算法 (Done)
+        for (int dxR = -blockNum; dxR < blockNum + 1; dxR++) {
+            double dx = userFindLo.get(0) + 0.001 * dxR;
+            for (int dyR = -blockNum; dyR < blockNum + 1; dyR++) {
+                List<Double> lo = new ArrayList<>();
+                double dy = userFindLo.get(1) + 0.001 * dyR;
+                lo.add(dx);
+                lo.add(dy);
+                if(!alreadySearchBlocks.contains(lo)) {
+                    blocks.add(lo);
+                }
+                alreadySearchBlocks.add(lo);
+            }
+        }
+
+//        if(blockNum>1){
+//            for (int dxR = -blockNum+1; dxR < blockNum ; dxR++) {
+//                double dx = userFindLo.get(0) + 0.001 * dxR;
+//                for (int dyR = -blockNum+1; dyR < blockNum ; dyR++) {
+//                    List<Double> lo = new ArrayList<>();
+//                    double dy = userFindLo.get(1) + 0.001 * dyR;
+//                    lo.add(dx);
+//                    lo.add(dy);
+//                    blocks.remove(lo);
+//                }
+//            }
+//        }
+
+        for (int k = 0; k < blocks.size(); k++) {
+            if (driverMap.containsKey(blocks.get(k))) {
+                List<Driver> userAimDriverListForBlock = driverMap.get(blocks.get(k));
+                if (!userAimDriverListForBlock.isEmpty()) {
+                    for (int dNum = 0; dNum < userAimDriverListForBlock.size(); dNum++) {
+                        userAimDriverListForBlocks.add(userAimDriverListForBlock.get(dNum));
+                    }
+                    break;
+                }
+            }
+        }
+
+        return userAimDriverListForBlocks;
+    }
+
+
+
+    public Order createOrder(int uTime,List<Driver> userAimDriver,Queue<User> userQueue,double ux,double uy){
+        Order order = new Order();
+        order.setOrderID();
+        //订单生成
+        Driver aimDriver = userAimDriver.get(0);
+        order.setDriverID(aimDriver.getDriverID());
+        order.setUserID(userQueue.peek().getUserID());
+        order.setOrderStartT(uTime);
+        order.setOrderStartL(userQueue.peek().getUserLocation());
+        double averageDistance = Math.abs(ux - aimDriver.getDriverLocation().get(0)) + Math.abs(uy - aimDriver.getDriverLocation().get(1));
+        order.setManhattanDistance(averageDistance);
+        return order;
+        //Todo 打入log
+
     }
 }

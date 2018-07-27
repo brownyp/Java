@@ -12,8 +12,8 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-//        ConfigureABusiness c = new ConfigureABusiness();//车辆信息初始化
-//        HashMap<List<Double>, List<Driver>> driverMap = c.getDriverMap();//车辆地图
+        ConfigureABusiness c = new ConfigureABusiness(20001);//车辆信息初始化
+        HashMap<List<Double>, List<Driver>> driverMap = c.getDriverMap();//车辆地图
         ArrayList<Driver> driverOffList = new ArrayList<>();//离线车辆
         CsvReader csv = new CsvReader();//读取order信息并生成user
         Queue<User> userQueue = csv.getUserQueue();//得到user队列
@@ -21,7 +21,7 @@ public class Main {
 //        UserQueueMethod u = new UserQueueMethod();
 //        u.userQueueMethod(c,driverMap,driverOffList,userQueue);
         UsersInListMethod u = new UsersInListMethod();
-        u.userQueueMethod(userQueue);
+        u.userInListMethod(c,driverMap,driverOffList,userQueue);
     }
 
 

@@ -7,6 +7,10 @@ public class Driver {
     private List<Double> driverLocation;
     private String driverStatus;
     private int onRoadT;
+
+    //空驶率
+    private int idleTime;
+
     //接单时进行距离比较的工具属性
     private double aim;
     private double bearing;
